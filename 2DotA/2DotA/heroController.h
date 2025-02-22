@@ -15,4 +15,8 @@ public:
 	void showHeroes();
 
 	void startgame();
+
+	int input();
+
+	void choice(int x);
 };
