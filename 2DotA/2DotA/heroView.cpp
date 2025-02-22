@@ -11,8 +11,7 @@ void HeroView::displayHeroes(const std::vector<AbstractHero*>& heroes) {
 }
 
 void HeroView::hello() {
-	system("chcp 1251");
-	system("cls");
+	
 
 	std::cout << "\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t";
 
@@ -25,7 +24,7 @@ void HeroView::hello() {
 
 	std::cout << "\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t";
 
-	const std::string cont = "Нажмите любую клавишу чтобы продолжить";
+	const std::string cont = "НАЖМИТЕ ЛЮБУЮ КЛАВИШУ, ЧТОБЫ ПРОДОЛЖИТЬ";
 
 	for (const auto& c : cont) {
 		std::cout << c;
@@ -35,3 +34,31 @@ void HeroView::hello() {
 	std::cout << "\n\n\n";
 	system("pause");
 }
+
+void HeroView::menu(){
+	system("cls");
+	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(console, FOREGROUND_BLUE | FOREGROUND_GREEN);
+	std::cout << "////////////////////////////////////////////\n";
+	SetConsoleTextAttribute(console, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
+	std::cout << "\n";
+	std::cout << "Нажмите на цифру, чтобы выбрать действие:\n";
+	std::cout << "0.Выход\n";
+	std::cout << "1.Список героев\n";
+	std::cout << "2.Начать игру\n";
+	std::cout << "\n";
+	SetConsoleTextAttribute(console, FOREGROUND_BLUE | FOREGROUND_GREEN);
+	std::cout << "////////////////////////////////////////////\n";
+	SetConsoleTextAttribute(console, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
+	std::cout << "\n";
+	std::cout << "ВЫБОР:\n";
+	
+}
+
+void HeroView::exitGame() {
+	system("cls");
+	std::cout << " Возвращайтесь снова";
+	exit(0);
+}
+
+

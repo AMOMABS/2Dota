@@ -10,6 +10,7 @@ public:
 	void displayHeroes(const std::vector<AbstractHero*>& heroes);
 	void hello();
 	void menu();
+	void exitGame();
 };
 
 
