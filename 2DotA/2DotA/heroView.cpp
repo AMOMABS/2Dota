@@ -77,4 +77,10 @@ void HeroView::exitGame() {
 	exit(0);
 }
 
+void HeroView::firstStep() {
+	system("cls");
+	std::cout << "Input your name: ";
+	
+}
+
 

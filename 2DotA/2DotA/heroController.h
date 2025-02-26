@@ -4,9 +4,11 @@
 
 
 
+
 class HeroController
 {
 private:
+	
 	HeroModel model;
 	HeroView view;
 public:
@@ -19,6 +21,8 @@ public:
 	int input();
 
 	void choice(int x);
+
+	void persName(std::string name);
 
 	
 };

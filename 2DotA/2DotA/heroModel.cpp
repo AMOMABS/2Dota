@@ -6,7 +6,7 @@
 #include "ShadowFiend.h"
 #include "AntiMage.h"
 
-HeroModel::HeroModel() {
+HeroModel::HeroModel():pers("",nullptr) {
 	addHero(new Magnus());
 	addHero(new Invoker());
 	addHero(new PhantomAssasin());
@@ -17,6 +17,10 @@ HeroModel::HeroModel() {
 }
 void HeroModel::addHero(AbstractHero* hero) {
 	heroes.push_back(hero);
+}
+
+Person& HeroModel::get_person(){
+	return pers;
 }
 
 std::vector<AbstractHero*> HeroModel::getHeroes() const {

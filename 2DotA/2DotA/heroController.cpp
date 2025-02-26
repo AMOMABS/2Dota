@@ -2,6 +2,7 @@
 
 
 
+
 void HeroController::addHero(AbstractHero* heroname) {
 	model.addHero(heroname);
 }
@@ -17,6 +18,9 @@ int HeroController::input() {
 	return choice;
 }
 
+void HeroController::persName(std::string name) {
+	model.get_person().setName(name);
+}
 void HeroController::choice(int x) {
 	switch (x) {
 	case 0:
@@ -28,6 +32,10 @@ void HeroController::choice(int x) {
 void HeroController::startgame() {
 	
 	view.hello();
+	view.firstStep();
+	std::string name;
+	getline(std::cin,name);
+	persName(name);
 	while (true) {
 		
 		view.menu();
