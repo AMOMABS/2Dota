@@ -11,6 +11,7 @@ public:
 	void hello();
 	void menu();
 	void exitGame();
+	void firstStep();
 };
 
 

@@ -21,5 +21,7 @@ public:
 	personData get_info() {
 		return personData{ name,hero,gold,goldPlus };
 	}
-
+	void setName(const std::string& newName) {
+		name = newName;
+	}
 };
