@@ -3,11 +3,14 @@
 #include <Windows.h>
 
 void HeroView::displayHeroes(const std::vector<AbstractHero*>& heroes) {
+	system("cls");
+	
 	std::cout << "Список героев: " << std::endl;
 	for (const AbstractHero* hero : heroes) {
 		std::cout << hero->get_name() << std::endl;
 	}
 	std::cout << std::endl;
+	system("pause");
 }
 
 void HeroView::hello() {
@@ -57,7 +60,20 @@ void HeroView::menu(){
 
 void HeroView::exitGame() {
 	system("cls");
-	std::cout << " Возвращайтесь снова";
+	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(console, FOREGROUND_RED);
+	
+	std::cout << "\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t";
+
+	const std::string frase = "Возвращайтесь снова!";
+
+	for (const auto& c : frase) {
+		std::cout << c;
+		Sleep(100);
+	}
+
+	std::cout << "\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t";
+	SetConsoleTextAttribute(console, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
 	exit(0);
 }
 
