@@ -8,6 +8,7 @@ class HeroModel
 private:
 	std::vector<AbstractHero*> heroes;
 public:
+	HeroModel();
 	void addHero(AbstractHero* hero);
 
 	std::vector<AbstractHero*> getHeroes() const;

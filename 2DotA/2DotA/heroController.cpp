@@ -1,5 +1,7 @@
 #include "heroController.h"
 
+
+
 void HeroController::addHero(AbstractHero* heroname) {
 	model.addHero(heroname);
 }
@@ -24,8 +26,14 @@ void HeroController::choice(int x) {
 	}
 }
 void HeroController::startgame() {
+	
 	view.hello();
-	view.menu();
-	choice(input());
+	while (true) {
+		
+		view.menu();
+		
+		choice(input());
+	}
 	
 }
+

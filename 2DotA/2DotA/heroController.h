@@ -19,4 +19,6 @@ public:
 	int input();
 
 	void choice(int x);
+
+	
 };
