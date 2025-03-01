@@ -19,9 +19,9 @@ public:
 		hp(hp),mana(mana),name(name), force(force), agility(agility), intelligence(intelligence), attackSpeed(attackSpeed), attackDamage(attackDamage), moveSpeed(moveSpeed){ }
 
 	struct heroData {
+		std::string name;
 		int hp;
 		int mana;
-		std::string name;
 		float force;
 		float agility;
 		float intelligence;
@@ -34,7 +34,7 @@ public:
 		return name;
 	}
 	virtual heroData get_info() const{
-		return heroData{ hp,mana,name,force,agility,intelligence,attackSpeed,attackDamage,moveSpeed };
+		return heroData{ name,hp,mana,force,agility,intelligence,attackSpeed,attackDamage,moveSpeed };
 	}
 	virtual std::vector<AbstractThings*>& get_inv() {
 		return inv;
@@ -42,11 +42,7 @@ public:
 
 	virtual void skill1() = 0;
 
-	
 	virtual void ult() = 0;
-
-
-
 
 };
 

@@ -2,8 +2,6 @@
 #include "heroModel.h"
 #include "heroView.h"
 
-
-
 class HeroController
 {
 private:
@@ -20,5 +18,8 @@ public:
 
 	void choice(int x);
 
-	
+	void persName(const std::string& name);
+
+	void game();
+
 };
