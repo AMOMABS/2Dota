@@ -42,13 +42,7 @@ public:
 
 	virtual void skill1() = 0;
 
-	
 	virtual void ult() = 0;
-
-	
-
-
-
 
 };
 

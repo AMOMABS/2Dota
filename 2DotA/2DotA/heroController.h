@@ -5,7 +5,6 @@
 class HeroController
 {
 private:
-	
 	HeroModel model;
 	HeroView view;
 public:

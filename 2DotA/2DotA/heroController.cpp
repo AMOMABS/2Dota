@@ -19,7 +19,6 @@ void HeroController::persName(const std::string& name) {
 	model.get_person().setName(name);
 }
 
-
 void HeroController::game() {
 	bool flag(true);
 	do {
@@ -70,14 +69,11 @@ void HeroController::startgame() {
 	std::string name;
 	getline(std::cin,name);
 	persName(name);
-	while (true) {
-		
+	while (true) {	
 		view.menu();
 		
 		choice(input());
 	}
-	
-
 	
 }
 
