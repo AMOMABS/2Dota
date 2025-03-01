@@ -22,7 +22,6 @@ void HeroController::persName(const std::string& name) {
 void HeroController::game() {
 	bool flag(true);
 	do {
-
 		view.gameMenu();
 		int temp = input();
 		switch (temp) {
@@ -34,8 +33,6 @@ void HeroController::game() {
 			break;
 		}
 	} while (flag);
-	
-
 }
 void HeroController::choice(int x) {
 	switch (x) {
@@ -71,7 +68,6 @@ void HeroController::startgame() {
 	persName(name);
 	while (true) {	
 		view.menu();
-		
 		choice(input());
 	}
 	
