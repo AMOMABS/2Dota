@@ -3,6 +3,7 @@
 #include <string>
 #include <iostream>
 #include "AbstractHero.h"
+#include "Personagem.h"
 
 class HeroView
 {
@@ -12,6 +13,10 @@ public:
 	void menu();
 	void exitGame();
 	void firstStep();
+	void start();
+	void choose();
+	void gameMenu();
+	void profile(Person::personData ps);
 };
 
 

@@ -24,4 +24,7 @@ public:
 	void setName(const std::string& newName) {
 		name = newName;
 	}
+	void setPersHero(AbstractHero* newHero) {
+		hero = newHero;
+	}
 };

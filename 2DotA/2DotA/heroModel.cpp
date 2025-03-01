@@ -13,7 +13,6 @@ HeroModel::HeroModel():pers("",nullptr) {
 	addHero(new ShadowFiend());
 	addHero(new AntiMage());
 	addHero(new Pudge());
-
 }
 void HeroModel::addHero(AbstractHero* hero) {
 	heroes.push_back(hero);
