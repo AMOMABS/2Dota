@@ -5,26 +5,25 @@ class Person {
 private:
 	std::string name;
 	AbstractHero* hero;
+	std::string team;
 	int gold;
 	int goldPlus;
+	
 public:
-	Person(std::string name, AbstractHero* hero, int gold = 0, int goldPlus = 500) : name(name), hero(hero), gold(gold), goldPlus(goldPlus){}
+	Person(std::string name, AbstractHero* hero, std::string team,int gold, int goldPlus);
 
 	struct personData {
 		std::string name;
 		AbstractHero* hero;
 		int gold;
 		int goldPlus;
-		
-		
+		std::string team;
 	};
-	personData get_info() {
-		return personData{ name,hero,gold,goldPlus };
-	}
-	void setName(const std::string& newName) {
-		name = newName;
-	}
-	void setPersHero(AbstractHero* newHero) {
-		hero = newHero;
-	}
+	personData get_info();
+	std::string getName();
+	void setName(const std::string& newName);
+	void setPersHero(AbstractHero* newHero);
+	AbstractHero* getPersHero();
+	std::string getTeam();
+	void setTeam(std::string newTeam);
 };

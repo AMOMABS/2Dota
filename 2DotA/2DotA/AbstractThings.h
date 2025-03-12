@@ -5,8 +5,8 @@ class AbstractThings {
 private:
 	std::string name;
 	std::string description;
-	int plusHp;
-	int plusMana;
+	int hp;
+	int mana;
 	float plusForce;
 	float plusAgility;
 	float plusIntelligence;
@@ -14,15 +14,15 @@ private:
 	int plusAttackDamage;
 	int plusMoveSpeed;
 	int radius;
+	int cost;
 public:
-	AbstractThings(std::string Name, std::string description,int hp,int mana, float plusForce, float plusAgility, float pusIntelligence, int plusAttackSpeed, int plusAttackDamage, int plusMoveSpeed, int radius ) : 
-		plusHp(plusHp), plusMana(plusMana), plusForce(plusForce), plusAgility(plusAgility), plusIntelligence(plusIntelligence), plusAttackSpeed(plusAttackSpeed), plusAttackDamage(plusAttackDamage),plusMoveSpeed(plusMoveSpeed), radius(radius){ }
+	AbstractThings(std::string name, std::string description, int hp, int mana, float plusForce, float plusAgility, float plusIntelligence, int plusAttackSpeed, int plusAttackDamage, int plusMoveSpeed, int radius, int cost);
 
 	struct thingData {
 		std::string name;
 		std::string description;
-		int plusHp;
-		int plusMana;
+		int hp;
+		int mana;
 		float plusForce;
 		float plusAgility;
 		float plusIntelligence;
@@ -30,11 +30,12 @@ public:
 		int plusAttackDamage;
 		int plusMoveSpeed;
 		int radius;
+		int cost;
 	};
 
-	virtual thingData getInfo(){
-		return thingData{ name, description, plusHp, plusMana, plusForce, plusAgility, plusIntelligence, plusAttackSpeed, plusAttackDamage, plusMoveSpeed, radius };
-	}
+	virtual thingData getInfo() const;
+
+	virtual std::string getName() const;
 
 	virtual void use() = 0;
 };

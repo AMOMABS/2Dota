@@ -20,6 +20,8 @@ void HeroController::persName(const std::string& name) {
 }
 
 void HeroController::game() {
+	int temp2;
+	int temp3;
 	bool flag(true);
 	do {
 		view.gameMenu();
@@ -31,7 +33,28 @@ void HeroController::game() {
 		case(1):
 			view.profile(model.get_person().get_info());
 			break;
+		case(2):
+			view.displayThings(model.getThings());
+			temp2 = input();
+			for (int i = 0; i < size(model.getThings()); i++) {
+				if (temp2 - 1 == i) {
+					view.thingInfo(model.getThings()[i]->getInfo());
+				}
+			}
+			break;
+		case(3):
+			view.displayPlayers(model.getPlayers());
+			temp3 = input();
+			while (temp3 < 1 || temp3 > model.getPlayers().size()) {
+				std::cout << "Invalid value\n";
+				view.displayPlayers(model.getPlayers());
+				temp3 = input();
+			}
+			
+			view.profile(model.getPlayers()[temp3 - 1]->get_info());
+			break;
 		}
+		
 	} while (flag);
 }
 void HeroController::choice(int x) {
@@ -54,6 +77,8 @@ void HeroController::choice(int x) {
 			y = input();
 		}
 		model.get_person().setPersHero(model.getHeroes()[y - 1]);
+		model.createNewHeroes();
+
 		game();
 		break;
 	}

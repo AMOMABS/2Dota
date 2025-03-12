@@ -4,12 +4,21 @@
 
 void HeroView::displayHeroes(const std::vector<AbstractHero*>& heroes) {
 	system("cls");
-	
-	
+	std::cout << "Heroes:\n";
 	for (int i = 0; i < heroes.size();i++) {
 		std::cout << i+1 << "." << heroes[i]->get_name() << std::endl;
 	}
 	std::cout << std::endl;
+	
+}
+
+void HeroView::displayPlayers(const std::vector<Person*>& players) {
+	system("cls");
+	std::cout << "Players:\n";
+	for (int i = 0; i < players.size(); i++) {
+		std::cout << i + 1 << "." << players[i]->getName() << std::endl;
+	}
+	std::cout << "Number:" << std::endl;
 	
 }
 
@@ -103,7 +112,8 @@ void HeroView::gameMenu() {
 	std::cout << "0.Exit game\n";
 	std::cout << "1.Profile\n";
 	std::cout << "2.Shop\n";
-	std::cout << "3.Map\n";
+	std::cout << "3.Players info\n";
+	std::cout << "4.Map\n";
 	std::cout << "\n";
 	SetConsoleTextAttribute(console, FOREGROUND_BLUE | FOREGROUND_GREEN);
 	std::cout << "////////////////////////////////////////////\n";
@@ -117,12 +127,16 @@ void HeroView::profile(Person::personData ps) {
 	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(console, FOREGROUND_RED);
 	std::cout << "////////////////////////////////////////////\n";
-	SetConsoleTextAttribute(console, FOREGROUND_GREEN);
+	SetConsoleTextAttribute(console, FOREGROUND_BLUE);
 	auto hero = ps.hero->get_info();
 	std::cout << "\n";
 	std::cout << "Info:\n";
 	std::cout << "\n";
 	std::cout << "Name:" << ps.name <<"\n";
+	std::cout << "Team:" << ps.team << "\n";
+	SetConsoleTextAttribute(console, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
+	std::cout << "////////////////////////////////////////////\n";
+	SetConsoleTextAttribute(console, FOREGROUND_GREEN);
 	std::cout << "Hero data:\n";
 	std::cout << "\n";
 	std::cout << "hero: " << hero.name << std::endl;
@@ -143,4 +157,73 @@ void HeroView::profile(Person::personData ps) {
 	std::cout << "\n";
 	system("pause");
 }
+
+void HeroView::shopMenu() {
+	system("cls");
+	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(console, FOREGROUND_GREEN);
+	std::cout << "                                             \\\\SHOP//\n\n\n";
+	
+	SetConsoleTextAttribute(console, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
+	
+}
+
+void HeroView::displayThings(const std::vector<AbstractThings*>& things) {
+	HeroView::shopMenu();
+	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(console, FOREGROUND_BLUE);
+	for (int i = 0; i < things.size(); i++) {
+		std::cout << "                                          " << i + 1 << "." << things[i]->getName() << std::endl;
+	}
+	
+	SetConsoleTextAttribute(console, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
+	std::cout << "\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\nChoice: ";
+	std::cout << std::endl;
+}
+
+void HeroView::thingInfo(AbstractThings::thingData data) {
+	system("cls");
+	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(console, FOREGROUND_GREEN);
+	
+	std::cout << "                                             \\\\DATA//\n\n\n";
+	SetConsoleTextAttribute(console, FOREGROUND_BLUE); 
+	std::cout << "                                          Name: " << data.name << std::endl;
+	std::cout << "                                          Description: " << data.description << std::endl;
+	
+	
+	if (data.hp != 0) {
+		std::cout << "                                          +Hp: " << data.hp << std::endl;
+	}
+	if (data.mana != 0) {
+		std::cout << "                                          +Mana: " << data.mana << std::endl;
+	}
+	if (data.plusForce != 0) {
+		std::cout << "                                          +Force: " << data.plusForce << std::endl;
+	}
+	if (data.plusAgility != 0) {
+		std::cout << "                                          +Agility: " << data.plusAgility << std::endl;
+	}
+	if (data.plusIntelligence != 0) {
+		std::cout << "                                          +Intelligence: " << data.plusIntelligence << std::endl;
+	}
+	if (data.plusAttackSpeed != 0) {
+		std::cout << "                                          +AttackSpeed: " << data.plusAttackSpeed << std::endl;
+	}
+	if (data.plusAttackDamage != 0) {
+		std::cout << "                                          +AttackDamage: " << data.plusAttackDamage << std::endl;
+	}
+	if (data.plusMoveSpeed != 0) {
+		std::cout << "                                          +MoveSpeed: " << data.plusMoveSpeed << std::endl;
+	}
+	if (data.radius != 0) {
+		std::cout << "                                          Radius:" << data.radius << std::endl;
+	}
+	if (data.cost != 0) {
+		std::cout << "                                          Cost: " << data.cost << std::endl;
+	}
+	SetConsoleTextAttribute(console, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
+	system("pause");
+}
+
 
