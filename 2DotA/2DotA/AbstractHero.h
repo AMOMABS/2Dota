@@ -31,7 +31,7 @@ public:
 
 	virtual std::string get_name() const;
 	virtual heroData get_info() const;
-	virtual std::vector<AbstractThings*>& get_inv();
+	virtual std::vector<AbstractThings*>& get_inv() const;
 
 	virtual void skill1() = 0;
 

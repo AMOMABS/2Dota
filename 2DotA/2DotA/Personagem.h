@@ -19,11 +19,12 @@ public:
 		int goldPlus;
 		std::string team;
 	};
-	personData get_info();
-	std::string getName();
+	personData get_info() const;
+	std::string getName() const;
 	void setName(const std::string& newName);
 	void setPersHero(AbstractHero* newHero);
-	AbstractHero* getPersHero();
-	std::string getTeam();
+	AbstractHero* getPersHero() const;
+	std::string getTeam() const;
 	void setTeam(std::string newTeam);
+	void setGold(int x);
 };

@@ -1,6 +1,7 @@
 #pragma once
 #include "heroModel.h"
 #include "heroView.h"
+#include <chrono>
 
 class HeroController
 {
@@ -21,9 +22,4 @@ public:
 	void persName(const std::string& name);
 
 	void game();
-
-	
-
-	
-
 };

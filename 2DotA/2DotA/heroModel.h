@@ -19,10 +19,11 @@ private:
 public:
 	HeroModel();
 	void addHero(AbstractHero* hero);
-	void addThing(AbstractThings* hero);
+	void addThing(AbstractThings* thing);
 	void addPlayer(Person* player);
 	void createRandPlayer();
 	void createNewHeroes();
+	void addHeroThing(AbstractThings* thing);
 
 	
 	Person& get_person();

@@ -9,7 +9,6 @@ void HeroView::displayHeroes(const std::vector<AbstractHero*>& heroes) {
 		std::cout << i+1 << "." << heroes[i]->get_name() << std::endl;
 	}
 	std::cout << std::endl;
-	
 }
 
 void HeroView::displayPlayers(const std::vector<Person*>& players) {
@@ -22,9 +21,15 @@ void HeroView::displayPlayers(const std::vector<Person*>& players) {
 	
 }
 
-void HeroView::hello() {
-	
+void HeroView::displayInv(AbstractHero* hero) {
+	std::cout << "\nInventory:\n";
+	for (int i = 0; i < hero->get_inv().size(); i++) {
+		std::cout << i + 1 << "." << hero->get_inv()[i]->getName() << std::endl;
+	}
+	std::cout << std::endl;
+}
 
+void HeroView::hello() {
 	std::cout << "\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t";
 
 	const std::string name_of_the_game = "2DotA";
@@ -64,7 +69,6 @@ void HeroView::menu(){
 	SetConsoleTextAttribute(console, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
 	std::cout << "\n";
 	std::cout << "ÂÛÁÎÐ:\n";
-	
 }
 
 void HeroView::exitGame() {
@@ -150,6 +154,7 @@ void HeroView::profile(Person::personData ps) {
 	std::cout << "moveSpeed: " << hero.moveSpeed << std::endl;
 	std::cout << "gold:" << ps.gold << std::endl;
 	std::cout << "gold plus:" << ps.goldPlus << std::endl;
+	displayInv(ps.hero);
 	std::cout << "\n";
 	SetConsoleTextAttribute(console, FOREGROUND_RED);
 	std::cout << "////////////////////////////////////////////\n";
@@ -165,7 +170,6 @@ void HeroView::shopMenu() {
 	std::cout << "                                             \\\\SHOP//\n\n\n";
 	
 	SetConsoleTextAttribute(console, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
-	
 }
 
 void HeroView::displayThings(const std::vector<AbstractThings*>& things) {
@@ -175,7 +179,6 @@ void HeroView::displayThings(const std::vector<AbstractThings*>& things) {
 	for (int i = 0; i < things.size(); i++) {
 		std::cout << "                                          " << i + 1 << "." << things[i]->getName() << std::endl;
 	}
-	
 	SetConsoleTextAttribute(console, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
 	std::cout << "\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\nChoice: ";
 	std::cout << std::endl;
@@ -222,8 +225,25 @@ void HeroView::thingInfo(AbstractThings::thingData data) {
 	if (data.cost != 0) {
 		std::cout << "                                          Cost: " << data.cost << std::endl;
 	}
+
+	std::cout << "\n1.Buy\n2.Back\nChoice:";
 	SetConsoleTextAttribute(console, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
-	system("pause");
+}
+
+void HeroView::print(int x) {
+	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+	switch (x) {
+	case(1):
+		SetConsoleTextAttribute(console, FOREGROUND_GREEN);
+		std::cout << "\n\n\n\n\n\n\n\n\n\n\n                                               Success!\n\n\n\n\n\n\n";
+		SetConsoleTextAttribute(console, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
+		break;
+	case(2):
+		SetConsoleTextAttribute(console, FOREGROUND_RED);
+		std::cout << "\n\n\n\n\n\n\n\n\n\n\n                                               Not enough gold, try more later...\n\n\n\n\n\n\n";
+		SetConsoleTextAttribute(console, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
+		break;
+	}
 }
 
 

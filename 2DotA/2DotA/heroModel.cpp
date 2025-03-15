@@ -10,8 +10,7 @@
 std::vector <std::string> teams{ "moon","sun" };
 int moonCount = 0;
 
-
-HeroModel::HeroModel() :pers("", nullptr, "", 0, 500) , names({ "Jonny", "Stacy", "Monesy", "Morgen", "Bob", "Rafael","Pivozavr"}) {
+HeroModel::HeroModel() :pers("", nullptr, "", 500, 500) , names({ "Jonny", "Stacy", "Monesy", "Morgen", "Bob", "Rafael","Pivozavr"}) {
 	addHero(new Magnus());
 	addHero(new Invoker());
 	addHero(new PhantomAssasin());
@@ -48,7 +47,6 @@ std::vector<Person*> HeroModel::getPlayers() const {
 }
 
 void HeroModel::createRandPlayer() {
-	
 	int y;
 	int x;
 	do {
@@ -61,18 +59,13 @@ void HeroModel::createRandPlayer() {
 		else {
 			players.push_back(new Person{ names[x],newHeroes[y],teams[1],0,500});
 		}
-		
 		deleteHero(newHeroes[y]);
 	} while (newHeroes.size()>0);
-	
-	
 }
 
 void HeroModel::deleteHero(AbstractHero* hero) {
-
 	newHeroes.erase(find(newHeroes.begin(), newHeroes.end(), hero));
 }
-
 
 void HeroModel::createNewHeroes() {
 	newHeroes.resize(heroes.size());
@@ -86,7 +79,9 @@ void HeroModel::createNewHeroes() {
 		moonCount++;
 	}
 	createRandPlayer();
-	
+}
 
+void HeroModel::addHeroThing(AbstractThings* thing) {
+	pers.getPersHero()->get_inv().push_back(thing);
 }
 

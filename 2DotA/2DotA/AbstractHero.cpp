@@ -9,7 +9,7 @@ std::string AbstractHero::get_name() const{
 AbstractHero::heroData AbstractHero::get_info() const{
 	return heroData{ name,hp,mana,force,agility,intelligence,attackSpeed,attackDamage,moveSpeed };
 }
-std::vector<AbstractThings*>& AbstractHero::get_inv() {
+std::vector<AbstractThings*>& AbstractHero::get_inv() const{
 	return inv;
 }
 
