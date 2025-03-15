@@ -9,6 +9,8 @@ class HeroView
 {
 public:
 	void displayHeroes(const std::vector<AbstractHero*>& heroes);
+	void displayThings(const std::vector<AbstractThings*>& things);
+	void displayInv(AbstractHero* hero);
 	void hello();
 	void menu();
 	void exitGame();
@@ -17,6 +19,11 @@ public:
 	void choose();
 	void gameMenu();
 	void profile(Person::personData ps);
+	void shopMenu();
+	void thingInfo(AbstractThings::thingData thing);
+	void displayPlayers(const std::vector<Person*>& players);
+	void print(int x);
+	
 };
 
 

@@ -15,8 +15,7 @@ private:
 	int moveSpeed;
 	std::vector <AbstractThings*> inv;
 public:
-	AbstractHero(int hp, int mana,std::string name, float force, float agility, float intelligence, int attackSpeed, int attackDamage, int moveSpeed) :
-		hp(hp),mana(mana),name(name), force(force), agility(agility), intelligence(intelligence), attackSpeed(attackSpeed), attackDamage(attackDamage), moveSpeed(moveSpeed){ }
+	AbstractHero(int hp, int mana, std::string name, float force, float agility, float intelligence, int attackSpeed, int attackDamage, int moveSpeed);
 
 	struct heroData {
 		std::string name;
@@ -30,15 +29,9 @@ public:
 		int moveSpeed;
 	};
 
-	virtual std::string get_name() const{
-		return name;
-	}
-	virtual heroData get_info() const{
-		return heroData{ name,hp,mana,force,agility,intelligence,attackSpeed,attackDamage,moveSpeed };
-	}
-	virtual std::vector<AbstractThings*>& get_inv() {
-		return inv;
-	}
+	virtual std::string get_name() const;
+	virtual heroData get_info() const;
+	virtual std::vector<AbstractThings*>& get_inv() const;
 
 	virtual void skill1() = 0;
 

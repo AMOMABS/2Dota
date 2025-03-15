@@ -3,8 +3,8 @@
 
 class Boots : public AbstractThings {
 public:
-	Boots() : AbstractThings("Boots", "ботинок", 0,300,0,0,0,0,0,60,0){}
+	Boots(std::string name = "Boots",std::string description = "Boots", int hp = 0, int mana = 0, float plusForce = 0, float plusAgility = 0, float plusIntelligence = 0, int plusAttackSpeed = 0, int plusAttackDamage = 0, int plusMoveSpeed = 60, int radius = 0,int cost = 500) : AbstractThings(name, description, hp, mana, plusForce, plusAgility, plusIntelligence, plusAttackSpeed, plusAttackDamage, plusMoveSpeed, radius,cost) {}
 
-	virtual void use() override = 0;
+	virtual void use() override {};
 
 };
