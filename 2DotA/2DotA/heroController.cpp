@@ -11,10 +11,6 @@ void HeroController::showHeroes() {
 }
 
 int HeroController::input() {
-	/*int choice;
-	std::cin >> choice;
-	std::cin.ignore();
-	return choice;*/
 	char key = _getch();  
 	return key-48;
 }
@@ -125,8 +121,6 @@ void HeroController::game() {
 			cases(temp5);
 
 		}
-
-		
 	} while (flag);
 }
 void HeroController::choice(int x) {
@@ -169,6 +163,3 @@ void HeroController::startgame() {
 	}
 	
 }
-
-
-

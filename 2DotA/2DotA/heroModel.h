@@ -5,7 +5,6 @@
 #include "Personagem.h"
 #include <map>
 
-
 class HeroModel
 {
 private:

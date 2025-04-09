@@ -31,13 +31,9 @@ public:
 
 	virtual std::string get_name() const;
 	virtual heroData get_info() const;
-	virtual std::vector<AbstractThings*>& get_inv() ;
+	virtual std::vector<AbstractThings*> get_inv() const;
 	virtual void setAtributes(int plushp, int plusmana, float plusForce, float plusAgility, float plusIntelligence, int plusattackspeeed, int plusattackDamage, int plusmoveSpeed);
-
 	virtual void skill1() = 0;
-
 	virtual void ult() = 0;
-
-	
 };
 

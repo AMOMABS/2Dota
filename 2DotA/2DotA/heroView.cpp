@@ -283,7 +283,6 @@ void HeroView::thingInfo(AbstractThings::thingData data) {
 	std::cout << "                                          Name: " << data.name << std::endl;
 	std::cout << "                                          Description: " << data.description << std::endl;
 	
-	
 	if (data.hp != 0) {
 		std::cout << "                                          +Hp: " << data.hp << std::endl;
 	}
@@ -333,8 +332,6 @@ void HeroView::print(int x) {
 		SetConsoleTextAttribute(console, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
 		break;
 	}
-	
-
 }
 void HeroView::printMap(std::vector<Person*> players, const Person& pers) {
 	system("cls");
@@ -348,9 +345,7 @@ void HeroView::printMap(std::vector<Person*> players, const Person& pers) {
 				Map[players[i]->getPersPoint().y].replace(pers.getPersPoint().x - 10, players[i]->getName().length(), players[i]->getName());
 				
 			}
-
 		}
-
 	}
 	else {
 		Map[pers.getPersPoint().y].replace(pers.getPersPoint().x+10, 3, "you");

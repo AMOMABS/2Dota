@@ -119,7 +119,6 @@ void HeroModel::randomBuy() {
 				players[i]->setGold(-(possibleBuy[temp]->getInfo().cost));
 				addAtributes(*players[i], possibleBuy[temp]);
 			}
-			
 		}
 		else {
 			continue;
