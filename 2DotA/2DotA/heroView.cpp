@@ -1,6 +1,93 @@
 #include "heroView.h"
 #include <iostream>
 #include <Windows.h>
+#include <map>
+
+std::map <point, std::string> locations1{ {{4,75},"Sun fontain"},{{198,4},"Moon fontain"},{{80,45}, "mid sun tower2"},{{40,57},"mid sun tower1"},{{60,34},"troika"},{{81,65},"forest"},{{20,55},"top sun tower1"},{{21,23},"top sun tower2"},{{22,74},"niz sun tower1"},{{65,73},"niz sun tower2"} };
+
+const std::string temp1 = "moon";
+const std::string temp2 = "sun";
+
+std::vector<std::string> Map;
+const std::vector<std::string> Map2{ "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
+"@%                                                                                                                                   @                    @.                                           @",
+"@%                                                                                                                                   @                   /@                                            @",
+"@%                                                                                                                                   @                   @@                                            @",
+"@%         ...............%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#                  @*                                            @",
+"@%          @.                                                                                                                       @#                  @*                                            @",
+"@%          @.                                                                                                                       @#                  @@                                            @",
+"@%          @.                                                                                                                       @#                  /@                                            @",
+"@%          @.                                                                                                                       @#                   @@                                           @",
+"@%          @.                                                                                                                       @#                    @                                           @",
+"@%          @.                                                                                                                       @@                    #@                                          @",
+"@%          @.               @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@###################################################@@                     .@.                                        @",
+"@%          @.               @@                                                                                                      @@                       @@                                       @",
+"@%          @.               @@                                                                                                      @@                        %@*                                     @",
+"@%          @.               @@  ,@((((((((@@                                                                                        @@                          @@.                                   @",
+"@%          @.               @@  ,@        @@                                                                                        @@                            *@@                                 @",
+"@%          @.               @@  ,@        @@                                                   (@@.    *@@(                          @                               @@#                              @",
+"@%          @.               @@                                                                %@          @*                        .@                                  /@@@@                         @",
+"@%          @.               @@                                                                 /@@%   *&@@,                         .@%                                      @@@@@@                   @",
+"@%          @.               @@                                                                     /  @#                               @@/                                        @@@@@@@@@@@@@@@@@@@@@",
+"@%          @.               @@                                                                     @  @                               *@@ @@.                                                         @",
+"@%          @.               *@                                                                     @  @                             @@.     ,@@                                                       @",
+"@%          @.               *@                                                                     &  (,                         &@@           @@%                                                    @",
+"@%          @.               *@                                                                    %@   ,                      (@@                 @@                                                  @",
+"@%          @.               *@                       #%%%%                                    .%%   ,,   %@                 @@                      .@@                                               @",
+"@%          @.               *@                &@@@.          ,@@@@                                                       @@,                           @@&                                            @",
+"@%          @.               *@            &@@                     .@@(                                                &@@                           /@@   @@                                          @",
+"@%          @.               *@          @@                            @@                                            @@                            @@        .@@&&&&&&&&&&@                @@@@@@@@@@@@@",
+"@%          @@               *@        @@                                @@                                       @@                            @@@                       @                @           @",
+"@%          @@               *@      .@                                   ,@                                   @@@                            @@                          @                @           @",
+"@%          @@               *@     &@                                     /@.                              (@@                            @@,                            @                @           @",
+"@%          @@               *@     @                                       #@                            @@                             @@                               @(               @           @",
+"@%          @@               *@    #@                                        @                         @@                             @@,                                 @(               @&          @",
+"@%          @@               *@    @@                                        @@                     &@@                            #@&       &@@@@@@@@@@                  @#               @&          @",
+"@%          @@               *@    @@                                        @@                   @@                             @@     %@@               @@@             @#               @&          @",
+"@%          @@               *@    #@                                        @                 @@                             #@@    @@/                     *@@          @#               @&          @",
+"@%          @@               *@     @@                                      @@              @@@                             @@     %@                           @@        @(               @&          @",
+"@%          @@               *@      @@                                    @@            .@@                             (@&      @*                             ,@       @#               @&          @",
+"@%          @@               *@       &@                                 .@/           @@                             .@@        @                                 @.     @#               @&          @",
+"@%          @@               *@         @@                             .@@          @@%                             @@.         @%                                 #@     @@               @@          @",
+"@%          @@                @,          &@(                        @@*         %@@                             .@@           .@                                   @@    @@               @@          @",
+"@%          @@                @,             #@@#                /@@           @@                              @@,             %@                                   @@    @@               @@          @",
+"@%          @@                @,                  #@@@@@@@@@@@&.            @@                              .@@                 @                                   @#    @@               @@          @",
+"@%          @@                @,                                         @@&         /||\\                 @@                    @%                                 #@     @@               @@          @",
+"@%          @@                @,                                      *@@             ||               %@#                       @,                               .@.     @@               @@          @",
+"@%          @@                @,                                    @@                ||             @@                           @#                             (@       @@               @@          @",
+"@%          @@                @,                                 @@%                              #@#                              &@                           @@        @@               @@          @",
+"@%          @@                @,                              %@@                               @@                                   (@%                     #@#          .@                @          @",
+"@%          @@                @,                            @@                               @@.                                        (@@(             (@@(             .@                @          @",
+"@%          @@                @,                         @@                               *@@                                                /(@@@@@@@@/                  .@                @          @",
+"@@((((((((((((((((((((((((((((@(((@@@@@@@@@@@.        @@&                               @@.                                                                               .@                @          @",
+"@%                                           @@    .@@                               *@@                                                                                  .@                @          @",
+"@%                                             @@@@                                @@.                                                                                    .@                @          @",
+"@%                                               @@                             &@*                                                                                       .@                @          @",
+"@%                                                 @@                         @@                                                                                          .@                @          @",
+"@%                                                   @@                    &@*                                                                                             @*               @#         @",
+"@%                                                     @@                @@                                                                                                @*               @#         @",
+"@%                                                       @@           &@/                                                                                                  @*               @#         @",
+"@%*@@@@@@@@@@@@@@@@@@@@@@(@@@@&                            @@      (@@                          @&     @@                                                                  @*               @#         @",
+"@%                              .@@@                         @@  @@                             @@&   @@@                                                                  @*               @#         @",
+"@%                                   @@&                       @@                                  @ @                                                                     @*               @#         @",
+"@%                                      %@%                      @@                                @ @                                                                     @*               @#         @",
+"@%                                         @@                      @                               @ @                                                      @@@@@@@@@@     @*               @@         @",
+"@%                                           @@                      @                             @  @                                                     @#       @     @@               @@         @",
+"@%                                             @@                    @#                       /       *                                                     @#       @     @@               @@         @",
+"@%                                              @@                   @#                                                                                                    @@               @@         @",
+"@%                                               %@                  @#                                                                                                    @@               @@         @",
+"@%                                                @@                 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@.              @@         @",
+"@%                                                 @#                @#                                                                                                                     @@         @",
+"@%                                                 @@                @@                                                                                                                     @@         @",
+"@%                                                 .@                @@                                                                                                                     .@         @",
+"@%                                                 .@                @@                                                                                                                     .@         @",
+"@%                                                 @@                @@                                                                                                                     .@         @",
+"@%                                                 @#                @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@/        @",
+"@%                                                @@                 @@                                                                                                                                @",
+"@%                                               %@                  .@                                                                                                                                @",
+"@%                                              @@                    @                                                                                                                                @",
+"@%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
+};
 
 void HeroView::displayHeroes(const std::vector<AbstractHero*>& heroes) {
 	system("cls");
@@ -118,6 +205,7 @@ void HeroView::gameMenu() {
 	std::cout << "2.Shop\n";
 	std::cout << "3.Players info\n";
 	std::cout << "4.Map\n";
+	std::cout << "5.Go\n";
 	std::cout << "\n";
 	SetConsoleTextAttribute(console, FOREGROUND_BLUE | FOREGROUND_GREEN);
 	std::cout << "////////////////////////////////////////////\n";
@@ -154,6 +242,7 @@ void HeroView::profile(Person::personData ps) {
 	std::cout << "moveSpeed: " << hero.moveSpeed << std::endl;
 	std::cout << "gold:" << ps.gold << std::endl;
 	std::cout << "gold plus:" << ps.goldPlus << std::endl;
+	std::cout << "location:" << "x = " << ps.persPoint.x << ", y = " << ps.persPoint.y << ", " << locations1[ps.persPoint] << std::endl;
 	displayInv(ps.hero);
 	std::cout << "\n";
 	SetConsoleTextAttribute(console, FOREGROUND_RED);
@@ -193,7 +282,6 @@ void HeroView::thingInfo(AbstractThings::thingData data) {
 	SetConsoleTextAttribute(console, FOREGROUND_BLUE); 
 	std::cout << "                                          Name: " << data.name << std::endl;
 	std::cout << "                                          Description: " << data.description << std::endl;
-	
 	
 	if (data.hp != 0) {
 		std::cout << "                                          +Hp: " << data.hp << std::endl;
@@ -245,5 +333,39 @@ void HeroView::print(int x) {
 		break;
 	}
 }
+void HeroView::printMap(std::vector<Person*> players, const Person& pers) {
+	system("cls");
+	Map = Map2;
+	
+	
+	if (pers.getTeam() == temp1) {
+		Map[pers.getPersPoint().y].replace(pers.getPersPoint().x-10, 3, "you");
+		for (int i = 0; i < players.size(); i++) {
+			if (players[i]->getTeam() == temp1) {
+				Map[players[i]->getPersPoint().y].replace(pers.getPersPoint().x - 10, players[i]->getName().length(), players[i]->getName());
+				
+			}
+		}
+	}
+	else {
+		Map[pers.getPersPoint().y].replace(pers.getPersPoint().x+10, 3, "you");
+		for (int i = 0; i < players.size(); i++) {
+			if (players[i]->getTeam() == temp2) {
+				Map[players[i]->getPersPoint().y ].replace(pers.getPersPoint().x + 10, players[i]->getName().length(), players[i]->getName());
+				
+			}
+		}
+	}
+	
+	for (auto& x : Map) {
+		std::cout << x << std::endl;
+	}
+}
 
-
+void HeroView::printGo(std::vector <point> go,std::map <point,std::string> locations) {
+	system("cls");
+	for (int i = 0; i < go.size(); i++) {
+		std::cout << i + 1 << "." << locations[go[i]] << std::endl;
+	}
+	std::cout << "Choice:";
+}

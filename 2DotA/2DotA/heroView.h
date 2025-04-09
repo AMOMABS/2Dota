@@ -23,6 +23,8 @@ public:
 	void thingInfo(AbstractThings::thingData thing);
 	void displayPlayers(const std::vector<Person*>& players);
 	void print(int x);
+	void printMap(std::vector<Person*> players, const Person& pers);
+	void printGo(std::vector <point> go, std::map <point, std::string> locations);
 	
 };
 
