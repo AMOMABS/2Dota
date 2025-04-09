@@ -3,6 +3,8 @@
 #include <string>
 #include "AbstractHero.h"
 #include "Personagem.h"
+#include <map>
+
 
 class HeroModel
 {
@@ -24,6 +26,10 @@ public:
 	void createRandPlayer();
 	void createNewHeroes();
 	void addHeroThing(AbstractThings* thing);
+	void setGoldForPlayers(int x);
+	void randomBuy();
+	void addAtributes(Person& pers, AbstractThings* thing);
+	std::vector<point> possibility(const point& point);
 
 	
 	Person& get_person();

@@ -2,6 +2,7 @@
 #include "heroModel.h"
 #include "heroView.h"
 #include <chrono>
+#include <conio.h>
 
 class HeroController
 {
@@ -22,4 +23,8 @@ public:
 	void persName(const std::string& name);
 
 	void game();
+
+	void addAtributes(Person& pers, AbstractThings* thing);
+
+	void cases(int x);
 };
