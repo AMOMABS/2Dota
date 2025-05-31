@@ -9,10 +9,25 @@
 #include "Radiance.h"
 
 std::vector <std::string> teams{ "moon","sun" };
+
 int moonCount = 0;
 int sunCount = 0;
 
-HeroModel::HeroModel() :pers("", nullptr, "", 500, 500,{-1,-1}), names({"Jonny", "Stacy", "Monesy", "Morgen", "Bob", "Rafael","Pivozavr"}) {
+std::vector <Tower*> towers2{ new Tower({"t1_mid_s","sun",2500,100,Sun_mid_tower1}),
+	   new Tower{"t2_mid_s","sun",1500,60,Sun_mid_tower2},
+	   new Tower{"t1_top_s","sun",2500,100,Sun_top_tower1},
+	   new Tower{"t2_top_s","sun",1500,60,Sun_top_tower2},
+	   new Tower{"t1_niz_s","sun",2500,100,Sun_niz_tower1},
+	   new Tower{"t2_niz_s","sun",1500,60,Sun_niz_tower2},
+	   new Tower{"t1_mid_m","moon",2500,100,Moon_mid_tower1},
+	   new Tower{"t2_mid_m","moon",1500,60,Moon_mid_tower2},
+	   new Tower{"t1_top_m","moon",2500,100,Moon_top_tower1},
+	   new Tower{"t2_top_m","moon",1500,60,Moon_top_tower2},
+	   new Tower{"t1_niz_m","moon",2500,100,Moon_niz_tower1},
+	   new Tower{"t2_niz_m","moon",1500,60,Moon_niz_tower2},
+};
+
+HeroModel::HeroModel() :pers("", nullptr, "", 500, 500,{-1,-1},1,0), names({"Jonny", "Stacy", "Monesy", "Morgen", "Bob", "Rafael","Pivozavr"}) {
 	addHero(new Magnus());
 	addHero(new Invoker());
 	addHero(new PhantomAssasin());
@@ -22,7 +37,22 @@ HeroModel::HeroModel() :pers("", nullptr, "", 500, 500,{-1,-1}), names({"Jonny",
 	addThing(new Boots());
 	addThing(new ArcaneBoots());
 	addThing(new Radiance());
+	this->towers = towers2;
 	
+}
+HeroModel::~HeroModel() {
+	for (auto& x : players) {
+		delete x;
+	}
+	for (auto& x : heroes) {
+		delete x;
+	}
+	for (auto& x : shopList) {
+		delete x;
+	}
+	for (auto& x : towers) {
+		delete x;
+	}
 }
 void HeroModel::addHero(AbstractHero* hero) {
 	heroes.push_back(hero);
@@ -51,17 +81,18 @@ std::vector<Person*> HeroModel::getPlayers() const {
 }
 
 void HeroModel::createRandPlayer() {
+	players.clear();
 	int y;
 	int x;
 	do {
 		y = rand() % newHeroes.size();
 		x = rand() % names.size();
 		if (moonCount < heroes.size() / 2) {
-			players.push_back(new Person{ names[x],newHeroes[y],teams[0],0,500,{198,4+moonCount} });
+			players.push_back(new Person{ names[x],newHeroes[y],teams[0],0,500,{198,4},1,0 });
 			moonCount++;
 		}
 		else {
-			players.push_back(new Person{ names[x],newHeroes[y],teams[1],0,500,{4,75-sunCount} });
+			players.push_back(new Person{ names[x],newHeroes[y],teams[1],0,500,{4,75},1,0 });
 			sunCount++;
 		}
 		deleteHero(newHeroes[y]);
@@ -73,9 +104,13 @@ void HeroModel::deleteHero(AbstractHero* hero) {
 }
 
 void HeroModel::createNewHeroes() {
+	newHeroes.clear();
 	newHeroes.resize(heroes.size());
 	for (int i = 0; i < heroes.size(); i++){
 		newHeroes[i] = heroes[i];
+	}
+	for (int i = 0; i < newHeroes.size(); i++) {
+		newHeroes[i]->setHp(heroes[i]->get_info().maxHp);
 	}
 	deleteHero(pers.getPersHero());
 	int temp = rand() % 2;
@@ -126,46 +161,103 @@ void HeroModel::randomBuy() {
 	}
 }
 
-void HeroModel::addAtributes(Person& pers, AbstractThings* thing) {
-	pers.getPersHero()->setAtributes(thing->getInfo().hp, thing->getInfo().mana, thing->getInfo().plusForce, thing->getInfo().plusAgility, thing->getInfo().plusIntelligence, thing->getInfo().plusAttackSpeed, thing->getInfo().plusAttackDamage, thing->getInfo().plusMoveSpeed);
+void HeroModel::botsMovement() {
+	for (int i = 0; i < players.size(); i++) {
+		int temp = rand() % 2;
+		if (temp == 0) {
+			std::vector <point> possibleGo = possibility(players[i]->getPersPoint());
+			temp = rand() % possibleGo.size();
+			players[i]->setPersPoint(possibleGo[temp].x, possibleGo[temp].y);
+		}
+		else {
+			continue;
+		}
+	}
 }
 
+void HeroModel::addAtributes(Person& pers, AbstractThings* thing) {
+	pers.getPersHero()->setAtributes(thing->getInfo().hp, thing->getInfo().mana,thing->getInfo().hp, thing->getInfo().mana, thing->getInfo().plusForce, thing->getInfo().plusAgility, thing->getInfo().plusIntelligence, thing->getInfo().plusAttackSpeed, thing->getInfo().plusAttackDamage, thing->getInfo().plusMoveSpeed);
+}
+
+Tower* HeroModel::haveTower(const Person& pers) {
+	for (int i = 0; i < towers.size(); i++) {
+		if ((pers.getPersPoint() == towers[i]->getPoint()) && (pers.getTeam() != towers[i]->getTeam())) {
+			return towers[i];
+		}
+	}
+	return nullptr;
+	/*fazer depois de realizacao do fight, depois de muda de position em botsMove,ent e movement do Person*/
+}
+
+Person* HeroModel::havePerson(const Person& pers) {
+	for (int i = 0; i < players.size(); i++) {
+		if ((pers.getPersPoint() == players[i]->getPersPoint()) && (pers.getTeam() != players[i]->getTeam())) {
+			return players[i];
+		}
+	}
+	return nullptr;
+}
 std::vector<point> HeroModel::possibility(const point& Point) {
-	if (Point == point{ 22,74 }) {
-		std::vector <point> go{ {65,73}, { 4,75 },{81, 65} };
+	if ((Point == Sun_niz_tower1)) {
+		std::vector <point> go{ Sun_niz_tower2, Sun_fontain,Sun_forest };
 		return go;
 	}
-	else if (Point == point{ 4,75 }) {
-		std::vector <point> go{ {40,57},{22,74},{20,55}};
+	else if ((Point == Sun_fontain)) {
+		std::vector <point> go{ Sun_mid_tower1,Sun_niz_tower1,Sun_top_tower1 };
 		return  go;
 	}
-	else if (Point == point{ 40,57 }) {
-		std::vector <point> go{ {80,45} ,{4,75} };
+	else if ((Point == Sun_mid_tower1)) {
+		std::vector <point> go{ Sun_mid_tower2 ,Sun_fontain };
 		return go;
 	}
-	else if (Point == point{ 80,45 }) {
-		std::vector <point> go{ {40,57},{60,34},{81,65} };
+	else if ((Point == Sun_mid_tower2)) {
+		std::vector <point> go{ Sun_mid_tower1,Sun_troika,Sun_forest,Moon_mid_tower2};
 		return go;
 	}
-	else if (Point == point{81, 65}) {
-		std::vector <point> go{{ 80,45 },{22,74} };
+	else if ((Point == Sun_forest)) {
+		std::vector <point> go{ Sun_mid_tower2,Sun_niz_tower1 };
 		return go;
 	}
-	else if (Point == point{ 60,34 }) {
-		std::vector <point> go{ {80,45}, {21,23} };
+	else if ((Point == Sun_troika)) {
+		std::vector <point> go{ Sun_mid_tower2, Sun_top_tower2 };
 		return go;
 	}
-	else if (Point == point {20,55} ) {
-		std::vector <point> go{ { 4,75 }, {21,23} };
+	else if ((Point == Sun_top_tower1)) {
+		std::vector <point> go{ Sun_fontain, Sun_top_tower2 };
 		return go;
 	}
-	else if (Point == point{ 65,73 }) {
-		std::vector <point> go{ {22,74} } ;
+	else if ((Point == Sun_niz_tower2)) {
+		std::vector <point> go{ Sun_niz_tower1 } ;
 		return go;
 	}
-	else if (Point == point{ 21,23 }) {
-		std::vector <point> go{ {20,55}, { 60,34 } };
+	else if ((Point == Sun_top_tower2)) {
+		std::vector <point> go{ Sun_top_tower1, Sun_troika };
+		return go;
+	}
+	else if ((Point == Moon_fontain)) {
+		std::vector <point> go{ Moon_top_tower1,Moon_niz_tower1, Moon_mid_tower1 };
+		return go;
+	}
+	else if ((Point == Moon_top_tower1)) {
+		std::vector <point> go{ Moon_fontain };
+		return go;
+	}
+	else if ((Point == Moon_niz_tower1)) {
+		std::vector <point> go{ Moon_fontain };
+		return go;
+	}
+	else if ((Point == Moon_mid_tower1)) {
+		std::vector <point> go{ Moon_fontain,Moon_mid_tower2 };
+		return go;
+	}
+	else if ((Point == Moon_mid_tower2)) {
+		std::vector <point> go{ Moon_mid_tower1,Sun_mid_tower2};
 		return go;
 	}
 } 
-/*std::map <point, std::string> locations{ {{4,75},"Sun fontain"},{{198,4},"Moon fontain"},{{80,45}, "mid sun tower2"},{{40,57},"mid sun tower1"},{{60,34},"troika"},{{81,65},"forest"},{{20,55},"top sun tower1"},{{21,23},"top sun tower2"},{{22,74},"niz sun tower1"},{{65,70},"niz sun tower2"} };*/
+
+std::vector<Tower*> HeroModel::getTowers() const {
+	return towers;
+}
+
+

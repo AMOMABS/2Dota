@@ -5,8 +5,6 @@ class Radiance : public AbstractThings {
 public:
 	Radiance();
 
-	virtual void use() override {
-
-	}
+	virtual void use() override;
 
 };

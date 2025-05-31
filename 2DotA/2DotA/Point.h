@@ -9,11 +9,27 @@ struct point {
 	point(int x, int y):x(x),y(y) {};
 
 	bool operator < (const point& b) const {
-		return x < b.x;
+		return (y < b.y);
+	}
+
+	bool operator > (const point& b) const {
+		return (y > b.y);
+	}
+
+	bool operator <= (const point& b) const {
+		return (y  <= b.y);
+	}
+
+	bool operator >= (const point& b) const {
+		return (y >= b.y);
 	}
 
 	bool operator == (const point& b) const {
-		return x == b.x && y == b.y;
+		return (y == b.y);
+	}
+
+	point operator - (const point& b) const {
+		return point{ x - b.x,y - b.y };
 	}
 
 	
