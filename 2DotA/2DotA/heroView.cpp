@@ -3,8 +3,6 @@
 #include <Windows.h>
 #include <map>
 
-std::map <point, std::string> locations1{ {{4,75},"Sun fontain"},{{198,4},"Moon fontain"},{{80,45}, "mid sun tower2"},{{40,57},"mid sun tower1"},{{60,34},"troika"},{{81,65},"forest"},{{20,55},"top sun tower1"},{{21,23},"top sun tower2"},{{22,74},"niz sun tower1"},{{65,73},"niz sun tower2"} };
-
 const std::string temp1 = "moon";
 const std::string temp2 = "sun";
 
@@ -206,6 +204,8 @@ void HeroView::gameMenu() {
 	std::cout << "3.Players info\n";
 	std::cout << "4.Map\n";
 	std::cout << "5.Go\n";
+	std::cout << "6.Fight with tower\n";
+	std::cout << "7.Fight with enemies\n";
 	std::cout << "\n";
 	SetConsoleTextAttribute(console, FOREGROUND_BLUE | FOREGROUND_GREEN);
 	std::cout << "////////////////////////////////////////////\n";
@@ -242,7 +242,9 @@ void HeroView::profile(Person::personData ps) {
 	std::cout << "moveSpeed: " << hero.moveSpeed << std::endl;
 	std::cout << "gold:" << ps.gold << std::endl;
 	std::cout << "gold plus:" << ps.goldPlus << std::endl;
-	std::cout << "location:" << "x = " << ps.persPoint.x << ", y = " << ps.persPoint.y << ", " << locations1[ps.persPoint] << std::endl;
+	std::cout << "LVL:" << ps.lvl << std::endl;
+	std::cout << "Xp for next LVL:" << ps.preXp - ps.xp << std::endl;
+	std::cout << "location:" << "x = " << ps.persPoint.x << ", y = " << ps.persPoint.y << ", " << locations1.find(ps.persPoint)->second << std::endl;
 	displayInv(ps.hero);
 	std::cout << "\n";
 	SetConsoleTextAttribute(console, FOREGROUND_RED);
@@ -331,18 +333,46 @@ void HeroView::print(int x) {
 		std::cout << "\n\n\n\n\n\n\n\n\n\n\n                                               Not enough gold, try more later...\n\n\n\n\n\n\n";
 		SetConsoleTextAttribute(console, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
 		break;
+	case(3):
+		SetConsoleTextAttribute(console, FOREGROUND_RED);
+		std::cout << "\n\n\n\n\n\n\n\n\n\n\n                                               YOU DIE...\n\n\n\n\n\n\n";
+		SetConsoleTextAttribute(console, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
+		break;
+	case 4:
+		SetConsoleTextAttribute(console, FOREGROUND_RED);
+		std::cout << "\n\n\n\n\n\n\n\n\n\n\n                                               UNLUCK\n\n\n\n\n\n\n";
+		SetConsoleTextAttribute(console, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
+		break;
+	case 5:
+		SetConsoleTextAttribute(console, FOREGROUND_GREEN);
+		std::cout << "\n\n\n\n\n\n\n\n\n\n\n                                               LUCKY\n\n\n\n\n\n\n";
+		SetConsoleTextAttribute(console, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
+		break;
+	case 6:
+		SetConsoleTextAttribute(console, FOREGROUND_RED);
+		std::cout << "\n\n\n\n\n\n\n\n\n\n\n                                               YOU LOSE\n\n\n\n\n\n\n";
+		SetConsoleTextAttribute(console, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
+		break;
+	case 7:
+		SetConsoleTextAttribute(console, FOREGROUND_GREEN);
+		std::cout << "\n\n\n\n\n\n\n\n\n\n\n                                               YOU WIN GAME, CONGRATULATIONS\n\n\n\n\n\n\n";
+		SetConsoleTextAttribute(console, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
+		break;
 	}
+
 }
-void HeroView::printMap(std::vector<Person*> players, const Person& pers) {
+void HeroView::printMap(const std::vector<Person*>& players, const Person& pers) {
 	system("cls");
 	Map = Map2;
+	int counter = 1;
 	
 	
 	if (pers.getTeam() == temp1) {
 		Map[pers.getPersPoint().y].replace(pers.getPersPoint().x-10, 3, "you");
 		for (int i = 0; i < players.size(); i++) {
 			if (players[i]->getTeam() == temp1) {
-				Map[players[i]->getPersPoint().y].replace(pers.getPersPoint().x - 10, players[i]->getName().length(), players[i]->getName());
+				Map[(players[i]->getPersPoint().y)+counter].replace(players[i]->getPersPoint().x - 10, players[i]->getName().length(), players[i]->getName());
+				counter++;
 				
 			}
 		}
@@ -351,7 +381,8 @@ void HeroView::printMap(std::vector<Person*> players, const Person& pers) {
 		Map[pers.getPersPoint().y].replace(pers.getPersPoint().x+10, 3, "you");
 		for (int i = 0; i < players.size(); i++) {
 			if (players[i]->getTeam() == temp2) {
-				Map[players[i]->getPersPoint().y ].replace(pers.getPersPoint().x + 10, players[i]->getName().length(), players[i]->getName());
+				Map[players[i]->getPersPoint().y-counter].replace(players[i]->getPersPoint().x + 10, players[i]->getName().length(), players[i]->getName());
+				counter++;
 				
 			}
 		}
@@ -362,10 +393,123 @@ void HeroView::printMap(std::vector<Person*> players, const Person& pers) {
 	}
 }
 
-void HeroView::printGo(std::vector <point> go,std::map <point,std::string> locations) {
+void HeroView::printGo(const std::vector <point>& go) {
 	system("cls");
 	for (int i = 0; i < go.size(); i++) {
-		std::cout << i + 1 << "." << locations[go[i]] << std::endl;
+		std::cout << i + 1 << "." << locations1.find(go[i])->second<< std::endl;
 	}
 	std::cout << "Choice:";
+}
+
+void HeroView::printFightTower(const Person& pers, const Tower& tower) {
+	system("cls");
+	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(console, FOREGROUND_BLUE);
+	std::cout << "////////////////////////////////////////////\n";
+	auto hero = pers.getPersHero()->get_info();
+	std::cout << "\n";
+	std::cout << "My Info:\n";
+	std::cout << "\n";
+	std::cout << "Hp:" << hero.hp << "\n";
+	std::cout << "Mana:" << hero.mana << "\n";
+	std::cout << "Damage:" << hero.attackDamage << "\n";
+	std::cout << "AttackSpeed:" << hero.attackSpeed << "\n";
+	SetConsoleTextAttribute(console,FOREGROUND_RED);
+	std::cout << "////////////////////////////////////////////\n";
+	std::cout << "\n";
+	std::cout << "Tower Info:\n";
+	std::cout << "\n";
+	std::cout << "Hp:" << tower.getHp() << "\n";
+	std::cout << "Damage:" << tower.getDamage() << "\n";
+	std::cout << "AttackSpeed: 2" << "\n";
+	SetConsoleTextAttribute(console, FOREGROUND_RED | FOREGROUND_BLUE);
+	std::cout << "What will you do?" << "\n";
+	std::cout << "1.Run away(random position)" << "\n";
+	std::cout << "2.Attack" << "\n";
+	
+
+}
+
+void HeroView::fightPrint(int x, Person* pers, Tower tower) {
+	system("cls");
+	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+	switch (x) {
+	case(1):
+		SetConsoleTextAttribute(console, FOREGROUND_GREEN);
+		std::cout << "\n\n\n\n\n\n\n\n\n\n\n                                               You have dealt " << pers->getPersHero()->get_info().attackDamage << " and get" << tower.getDamage() << "!\n\n\n\n\n\n\n";
+		SetConsoleTextAttribute(console, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
+		break;
+	case(2):
+		SetConsoleTextAttribute(console, FOREGROUND_RED);
+		std::cout << "\n\n\n\n\n\n\n\n\n\n\n                                               Now it is no possible\n\n\n\n\n\n\n";
+		SetConsoleTextAttribute(console, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
+		break;
+	case(3):
+		SetConsoleTextAttribute(console, FOREGROUND_GREEN);
+		std::cout << "\n\n\n\n\n\n\n\n\n\n\n                                               You run away on random point!\n\n\n\n\n\n\n";
+		SetConsoleTextAttribute(console, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
+		break;
+	}
+}
+
+void HeroView::fightPersPrint(int x, Person* pers, std::map <std::string, std::vector <Person*>> players) {
+	system("cls");
+	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+	switch (x) {
+	
+	case(0):
+		SetConsoleTextAttribute(console, FOREGROUND_GREEN);
+		std::cout << "\n\n\n\n\n\n\n\n\n\n\n                                               You win fight!!!\n\n\n\n\n\n\n";
+		SetConsoleTextAttribute(console, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
+		break;
+	case(1):
+		SetConsoleTextAttribute(console, FOREGROUND_RED);
+		std::cout << "\n\n\n\n\n\n\n\n\n\n\n                                               Now it is no possible\n\n\n\n\n\n\n";
+		SetConsoleTextAttribute(console, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
+		break;
+	case(2):
+		SetConsoleTextAttribute(console, FOREGROUND_GREEN);
+		std::cout << "\n\n\n\n\n\n\n\n\n\n\n                                               You have dealt para cada inimigo " << (pers->getPersHero()->get_info().attackDamage) * (pers->getPersHero()->get_info().attackSpeed) << " and get" << pers->getPersHero()->get_info().maxHp - pers->getPersHero()->get_info().hp << "!\n\n\n\n\n\n\n";
+		SetConsoleTextAttribute(console, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
+		break;
+	case 3:
+		system("cls");
+		HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+		SetConsoleTextAttribute(console, FOREGROUND_GREEN);
+		std::cout << "////////////////////////////////////////////\n";
+		auto hero = pers->getPersHero()->get_info();
+		std::cout << "\n";
+		std::cout << "My Info:\n";
+		std::cout << "\n";
+		std::cout << "Hp:" << hero.hp << "\n";
+		std::cout << "Mana:" << hero.mana << "\n";
+		std::cout << "Damage:" << hero.attackDamage << "\n";
+		std::cout << "AttackSpeed:" << hero.attackSpeed << "\n\n";
+		SetConsoleTextAttribute(console, FOREGROUND_BLUE);
+		std::cout << "SUN:\n";
+		auto s = players["sun"];
+		for (int i = 0; i < s.size(); i++) {
+			std::cout << "Name:" << s[i]->getName() << "\n";
+			std::cout << "Hero:" << s[i]->getPersHero()->get_name() << "\n";
+			std::cout << "Hp:" << s[i]->getPersHero()->get_info().hp << "\n";
+			std::cout << "Mana:" << s[i]->getPersHero()->get_info().mana << "\n";
+			std::cout << "Damage:" << s[i]->getPersHero()->get_info().attackDamage << "\n";
+			std::cout << "AttackSpeed:" << s[i]->getPersHero()->get_info().attackSpeed << "\n";
+		}
+		std::cout << "\n";
+		SetConsoleTextAttribute(console, FOREGROUND_RED);
+		std::cout << "\nMOON:\n";
+		auto m = players["moon"];
+		for (int i = 0; i < m.size(); i++) {
+			std::cout << "Name:" << m[i]->getName() << "\n";
+			std::cout << "Hero:" << m[i]->getPersHero()->get_name() << "\n";
+			std::cout << "Hp:" << m[i]->getPersHero()->get_info().hp << "\n";
+			std::cout << "Mana:" << m[i]->getPersHero()->get_info().mana << "\n";
+			std::cout << "Damage:" << m[i]->getPersHero()->get_info().attackDamage << "\n";
+			std::cout << "AttackSpeed:" << m[i]->getPersHero()->get_info().attackSpeed << "\n";
+		}
+		std::cout << "\n1.Exit fight\n2.Attack\nChice:";
+
+
+	}
 }
