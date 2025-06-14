@@ -1,4 +1,5 @@
 #pragma once
+#include "Point.h"
 #include "heroModel.h"
 #include "heroView.h"
 #include <chrono>
@@ -24,7 +25,22 @@ public:
 
 	void game();
 
-	void addAtributes(Person& pers, AbstractThings* thing);
-
 	void cases(int x);
+
+	void go(int x);
+
+	bool isDie();
+
+	void isDieOutro();
+
+	void fightWithTower(Person&, Tower&, int x);
+
+	Tower* checkNearTowers(std::vector <Tower*> towers);
+	std::map <std::string,std::vector <Person*>> checkNearPerson();
+
+	void fight(int x);
+
+	void lvlCheck();
+
+	bool youWin();
 };
