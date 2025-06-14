@@ -365,23 +365,25 @@ void HeroView::printMap(const std::vector<Person*>& players, const Person& pers)
 	system("cls");
 	Map = Map2;
 	int counter = 1;
-	
+	auto pos = pers.getPersPoint();
 	
 	if (pers.getTeam() == temp1) {
-		Map[pers.getPersPoint().y].replace(pers.getPersPoint().x-10, 3, "you");
+		Map[pos.y].replace(pos.x-10, 3, "you");
 		for (int i = 0; i < players.size(); i++) {
+			auto posP = players[i]->getPersPoint();
 			if (players[i]->getTeam() == temp1) {
-				Map[(players[i]->getPersPoint().y)+counter].replace(players[i]->getPersPoint().x - 10, players[i]->getName().length(), players[i]->getName());
+				Map[(posP.y)+counter].replace(posP.x - 10, players[i]->getName().length(), players[i]->getName());
 				counter++;
 				
 			}
 		}
 	}
 	else {
-		Map[pers.getPersPoint().y].replace(pers.getPersPoint().x+10, 3, "you");
+		Map[pos.y].replace(pos.x+10, 3, "you");
 		for (int i = 0; i < players.size(); i++) {
+			auto posP = players[i]->getPersPoint();
 			if (players[i]->getTeam() == temp2) {
-				Map[players[i]->getPersPoint().y-counter].replace(players[i]->getPersPoint().x + 10, players[i]->getName().length(), players[i]->getName());
+				Map[posP.y-counter].replace(posP.x + 10, players[i]->getName().length(), players[i]->getName());
 				counter++;
 				
 			}

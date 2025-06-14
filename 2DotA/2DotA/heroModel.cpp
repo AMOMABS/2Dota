@@ -176,7 +176,8 @@ void HeroModel::botsMovement() {
 }
 
 void HeroModel::addAtributes(Person& pers, AbstractThings* thing) {
-	pers.getPersHero()->setAtributes(thing->getInfo().hp, thing->getInfo().mana,thing->getInfo().hp, thing->getInfo().mana, thing->getInfo().plusForce, thing->getInfo().plusAgility, thing->getInfo().plusIntelligence, thing->getInfo().plusAttackSpeed, thing->getInfo().plusAttackDamage, thing->getInfo().plusMoveSpeed);
+	auto info  = thing->getInfo();
+	pers.getPersHero()->setAtributes(info.hp, info.mana,info.hp, info.mana, info.plusForce, info.plusAgility, info.plusIntelligence, info.plusAttackSpeed, info.plusAttackDamage, info.plusMoveSpeed);
 }
 
 Tower* HeroModel::haveTower(const Person& pers) {

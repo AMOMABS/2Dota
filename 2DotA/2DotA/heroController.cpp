@@ -18,11 +18,12 @@ void HeroController::persName(const std::string& name) {
 }
 
 void HeroController::go(int x) {
-	auto v = model.possibility(model.get_person().getPersPoint());
+	auto pers = model.get_person();
+	auto v = model.possibility(pers.getPersPoint());
 	if ((x <= 0) or (x > v.size())) {
 		return;
 	}
-	model.get_person().setPersPoint(v[x-1].x, v[x-1].y);
+	pers.setPersPoint(v[x-1].x, v[x-1].y);
 }
 
 void HeroController::cases(int x) {
@@ -38,6 +39,7 @@ void HeroController::game() {
 	Tower* temp6;
 	int counter = 0;
 	bool flag(true);
+	
 	do {
 		lvlCheck();
 		auto start = std::chrono::high_resolution_clock::now();
@@ -50,6 +52,9 @@ void HeroController::game() {
 		counter = (duration.count() + counter) % 10;
 		model.randomBuy();
 		model.botsMovement();
+		auto& person = model.get_person();
+		auto towers = model.getTowers();
+
 		switch (temp) {
 		case(0):
 			flag = false;
@@ -117,84 +122,77 @@ void HeroController::game() {
 
 		case(6):
 			temp6 = checkNearTowers(model.getTowers());
+			
+
 			if (temp6 != nullptr) {
 				system("cls");
-				while (model.get_person().getPersPoint() == temp6->getPoint()) {
-					view.printFightTower(model.get_person(), *temp6);
+				while (person.getPersPoint() == temp6->getPoint()) {
+					view.printFightTower(person, *temp6);
 					temp62 = input();
-					fightWithTower(model.get_person(), *temp6, temp62);
+					fightWithTower(person, *temp6, temp62);
 					system("pause");
-					if (isDie() == true) {
+					if (isDie()) {
 						flag = false;
 						break;
 					}
 				}
 			}
 			else {
-				view.fightPrint(2, &model.get_person(), *model.getTowers()[0]);
+				view.fightPrint(2, &person, *towers[0]);
 				system("pause");
 			}
 			break;
 		case 7:
-			std::map <std::string, std::vector <Person*>> nearPlayers = checkNearPerson();
-			if (nearPlayers.size() == 0) {
-				view.fightPersPrint(1, &model.get_person(),checkNearPerson());
+			std::map<std::string, std::vector<Person*>> nearPlayers = checkNearPerson();
+			auto& person = model.get_person();
+			auto personPoint = person.getPersPoint();
+			auto personTeam = person.getTeam();
+
+			if (nearPlayers.empty()) {
+				view.fightPersPrint(1, &person, nearPlayers);
 				system("pause");
 			}
 			else {
-				if (model.get_person().getTeam() == "sun") {
-					while ((model.get_person().getPersPoint().x == checkNearPerson()["moon"][0]->getPersPoint().x)&& (model.get_person().getPersPoint().y == checkNearPerson()["moon"][0]->getPersPoint().y)) {
-						view.fightPersPrint(3, &model.get_person(), checkNearPerson());
-						temp7 = input();
-						fight(temp7);
-						system("pause");
-						isDieOutro();
-						if (isDie() == true) {
-							flag = false;
-							break;
-						}
-						if (checkNearPerson()["moon"].empty() ){
-							system("cls");
-							view.fightPersPrint(0, &model.get_person(), nearPlayers);
-							system("pause");
-							break;
-						}
-					}
-				}
-				else {
-					while ((model.get_person().getPersPoint().x == checkNearPerson()["sun"][0]->getPersPoint().x)&&(model.get_person().getPersPoint().y == checkNearPerson()["sun"][0]->getPersPoint().y)) {
-						view.fightPersPrint(3, &model.get_person(), checkNearPerson());
-						temp7 = input();
-						fight(temp7);
-						system("pause");
-						isDieOutro();
-						if (isDie() == true) {
-							flag = false;
-							break;
-						}
-						if (checkNearPerson()["sun"].empty()) {
-							system("cls");
-							if (model.get_person().getTeam() == "sun") {
-								for (int i = 0; i < nearPlayers["sun"].size(); i++) {
-									nearPlayers["sun"][i]->setXp(500);
-								}
-								
-							}
-							else {
-								for (int i = 0; i < nearPlayers["moon"].size(); i++) {
-									nearPlayers["moon"][i]->setXp(500);
-								}
-							}
-							model.get_person().setXp(400);
-							view.fightPersPrint(0, &model.get_person(), nearPlayers);
+				std::string enemyTeam = (personTeam == "sun") ? "moon" : "sun";
 
-							system("pause");
-							break;
+				while (!nearPlayers[enemyTeam].empty() &&
+					personPoint.x == nearPlayers[enemyTeam][0]->getPersPoint().x &&
+					personPoint.y == nearPlayers[enemyTeam][0]->getPersPoint().y) {
+
+					view.fightPersPrint(3, &person, nearPlayers);
+					temp7 = input();
+					fight(temp7);
+					system("pause");
+					isDieOutro();
+
+					if (isDie()) {
+						flag = false;
+						break;
+					}
+
+					nearPlayers = checkNearPerson(); 
+					personPoint = person.getPersPoint();
+
+					if (nearPlayers[enemyTeam].empty()) {
+						system("cls");
+
+						if (personTeam == "sun") {
+							for (Person* p : nearPlayers["sun"]) {
+								p->setXp(500);
+							}
 						}
-						
+						else {
+							for (Person* p : nearPlayers["moon"]) {
+								p->setXp(500);
+							}
+						}
+
+						person.setXp(400);
+						view.fightPersPrint(0, &person, nearPlayers);
+						system("pause");
+						break;
 					}
 				}
-				
 			}
 			break;
 		}
@@ -244,25 +242,33 @@ void HeroController::startgame() {
 
 void HeroController::fightWithTower(Person& pers, Tower& tower,int x) {
 	int temp = rand() % model.possibility(model.get_person().getPersPoint()).size();
+	auto* hero = pers.getPersHero();
+	auto heroInfo = hero->get_info();
+	int towerDamage = tower.getDamage();
+	int heroAttack = heroInfo.attackDamage;
+	float heroSpeed = heroInfo.attackSpeed;
+	int heroHp = heroInfo.hp;
+
 	switch (x) {
 	case 1:
-		
-		pers.getPersHero()->setHp(pers.getPersHero()->get_info().hp - tower.getDamage());
-		pers.setPersPoint(model.possibility(pers.getPersPoint())[temp].x, model.possibility(pers.getPersPoint())[temp].y);
-		view.fightPrint(3,&pers,tower);
+		hero->setHp(heroHp - towerDamage);
+		pers.setPersPoint(model.possibility(pers.getPersPoint())[temp].x,
+			model.possibility(pers.getPersPoint())[temp].y);
+		view.fightPrint(3, &pers, tower);
 		break;
 	case 2:
-		tower.setHp(tower.getHp() - (pers.getPersHero()->get_info().attackDamage)*(pers.getPersHero()->get_info().attackSpeed));
-		pers.getPersHero()->setHp(pers.getPersHero()->get_info().hp-tower.getDamage());
+		tower.setHp(tower.getHp() - (heroAttack * heroSpeed));
+		hero->setHp(heroHp - towerDamage);
 		view.fightPrint(1, &pers, tower);
 		break;
 	}
 }
 
 Tower* HeroController::checkNearTowers(std::vector <Tower*> towers) {
+	decltype(auto) pers = model.get_person();
 	for (int i = 0; i < towers.size(); i++) {
 		
-		if ((towers[i]->getPoint() == model.get_person().getPersPoint()) && (towers[i]->getTeam() != model.get_person().getTeam()) && (towers[i]->getHp() != 0)) {
+		if ((towers[i]->getPoint() == pers.getPersPoint()) && (towers[i]->getTeam() != pers.getTeam()) && (towers[i]->getHp() != 0)) {
 			return towers[i];
 		}
 	}
@@ -271,16 +277,19 @@ Tower* HeroController::checkNearTowers(std::vector <Tower*> towers) {
 }
 
 std::map <std::string,std::vector <Person*>> HeroController::checkNearPerson() {
+	auto pers = model.get_person();
+	auto player = model.getPlayers();
 	std::map <std::string, std::vector <Person*>> nearPlayers{
 		{"sun",{}},
 		{"moon",{}}
 	};
 	for (int i = 0; i < model.getPlayers().size(); i++) {
-		if (model.getPlayers()[i]->getPersPoint() == model.get_person().getPersPoint()) {
-			nearPlayers[model.getPlayers()[i]->getTeam()].push_back(model.getPlayers()[i]);
+		
+		if (player[i]->getPersPoint() == pers.getPersPoint()) {
+			nearPlayers[player[i]->getTeam()].push_back(player[i]);
 		}
 	}
-	if (model.get_person().getTeam() == "moon") {
+	if (pers.getTeam() == "moon") {
 		if (nearPlayers["sun"].size() == 0) {
 			return {};
 		}
@@ -304,16 +313,21 @@ bool HeroController::isDie() {
 }
 
 void HeroController::isDieOutro() {
-	for (int i = 0; i < model.getPlayers().size(); i++) {
-		if (model.getPlayers()[i]->getPersHero()->get_info().hp <= 0) {
-			if (model.getPlayers()[i]->getTeam() == "moon") {
-				model.getPlayers()[i]->setPersPoint(198, 4);
+	decltype(auto) players = model.getPlayers();
+
+	for (int i = 0; i < players.size(); i++) {
+		auto* player = players[i];
+		auto* hero = player->getPersHero();
+		auto heroInfo = hero->get_info();
+
+		if (heroInfo.hp <= 0) {
+			if (player->getTeam() == "moon") {
+				player->setPersPoint(198, 4);
 			}
 			else {
-				model.getPlayers()[i]->setPersPoint(4,75);
+				player->setPersPoint(4, 75);
 			}
-			model.getPlayers()[i]->getPersHero()->setHp(model.getPlayers()[i]->getPersHero()->get_info().maxHp);
-
+			hero->setHp(heroInfo.maxHp);
 		}
 	}
 }
